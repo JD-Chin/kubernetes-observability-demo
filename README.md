@@ -6,7 +6,7 @@ A full-stack observability project deploying a 12-service microservices applicat
 
 ## Project Overview
 
-This project provisions a cloud environment from scratch, deploys a production-grade microservices application, and instruments it with an enterprise observability platform — replicating the kind of environment Dynatrace monitors in real enterprise deployments.
+This project provisions a cloud environment from scratch, deploys a production-grade microservices application, and instruments it with an enterprise observability platform: replicating the kind of environment Dynatrace monitors in real enterprise deployments.
 
 **What this demonstrates:**
 - Cloud infrastructure provisioning on AWS
@@ -55,7 +55,7 @@ This project provisions a cloud environment from scratch, deploys a production-g
 
 | Layer | Technology |
 |---|---|
-| Cloud Provider | AWS (EC2 — m7i-flex.large) |
+| Cloud Provider | AWS (EC2: m7i-flex.large) |
 | Operating System | Ubuntu 22.04 LTS |
 | Container Runtime | Docker 27.5.1 |
 | Orchestration | Kubernetes via minikube v1.38.1 |
@@ -90,9 +90,9 @@ Launch an EC2 instance with the following configuration:
   - Port 22 (SSH)
   - Port 80 (HTTP)
   - Port 443 (HTTPS)
-  - Port 8080 (Custom TCP — application access)
+  - Port 8080 (Custom TCP: application access)
 
-> **Why m7i-flex.large:** Running 12 microservices alongside Dynatrace OneAgent and the Kubernetes operator requires a minimum of 6GB RAM. Smaller instance types (t3.small, t3.medium) were tested and caused resource contention — see Lessons Learned.
+> **Why m7i-flex.large:** Running 12 microservices alongside Dynatrace OneAgent and the Kubernetes operator requires a minimum of 6GB RAM. Smaller instance types (t3.small, t3.medium) were tested and caused resource contention: see Lessons Learned.
 
 ### 2. Connect to Your Instance
 
@@ -163,7 +163,7 @@ kubectl apply -f kubernetes-manifests.yaml
 kubectl get pods --watch
 ```
 
-> **Pro tip:** Use `--watch` instead of repeatedly running `kubectl get pods`. It automatically updates as pod statuses change — a more efficient and professional approach to monitoring deployments.
+> **Pro tip:** Use `--watch` instead of repeatedly running `kubectl get pods`. It automatically updates as pod statuses change: a more efficient and professional approach to monitoring deployments.
 
 Wait until all pods show `1/1 Running` before proceeding.
 
@@ -219,10 +219,10 @@ kubectl get pods -n dynatrace --watch
 
 ## Screenshots
 
-| # | Screenshot | Description |
-|---|---|---|
+| #  | Screenshot | Description |
+|--- |---|---|
 | 1  | [EC2 Instance](screenshots/EC2%20instance.t3.small.%20screenshot.1.jpg) | EC2 instance running on AWS |
-| 2  | [Security Group Rules](screenshots/Security.Inbound.Rules%20screenshot.2.jpg) | Inbound rules — SSH, HTTP, HTTPS, 8080 |
+| 2  | [Security Group Rules](screenshots/Security.Inbound.Rules%20screenshot.2.jpg) | Inbound rules: SSH, HTTP, HTTPS, 8080 |
 | 3  | [minikube Startup](screenshots/kubernetes%20milestones.%20screenshot.3.jpg) | Kubernetes cluster initializing |
 | 4  | [kubectl get nodes](screenshots/kubectl.get.nodes.Ready.screenshot4.jpg) | Node showing Ready status |
 | 5  | [All 12 Pods Running](screenshots/All.12.pods.running.Screenshot.5.jpg) | Online Boutique fully deployed |
@@ -231,14 +231,14 @@ kubectl get pods -n dynatrace --watch
 | 8  | [Online Boutique Live](screenshots/online.btq.live.screenshot8.jpg) | Application running in browser |
 | 9  | [Dynatrace OneAgent](screenshots/Dynatrace.OneAgent.live.Screenshot.9.jpg) | OneAgent connected and fully operational |
 | 10 | [Problems Dashboard](screenshots/Problem.Dashboard.Screenshot.10.jpg) | Davis AI detecting active problems |
-| 11 | [Root Cause Analysis](screenshots/Davis.AI.root.cause.Screenshot.11.jpg) | CPU saturation — automated problem triage |
+| 11 | [Root Cause Analysis](screenshots/Davis.AI.root.cause.Screenshot.11.jpg) | CPU saturation: automated problem triage |
 | 12 | [Dynatrace Operator](screenshots/Dynatrace.operator.live.screenshot12.jpg) | Kubernetes Operator deployed successfully |
 
 ---
 
 ## Lessons Learned
 
-### 1. Instance Sizing Matters — Right-Size Before Deploying
+### 1. Instance Sizing Matters: Right-Size Before Deploying
 
 The project was initially deployed on a `t3.small` (2 vCPU, 2GB RAM). Running 12 microservices alongside Dynatrace OneAgent and the Kubernetes operator consumed all available memory, causing `kubectl` commands to time out and SSH connections to drop.
 
@@ -246,7 +246,7 @@ The project was initially deployed on a `t3.small` (2 vCPU, 2GB RAM). Running 12
 
 **Resolution:** Upgraded to `m7i-flex.large` (2 vCPU, 8GB RAM), allocating 6GB to minikube and reserving 2GB for the OS and monitoring tools.
 
-**Takeaway:** Always baseline resource requirements before deploying. In production, resource planning happens at the architecture stage — not after deployment failures.
+**Takeaway:** Always baseline resource requirements before deploying. In production, resource planning happens at the architecture stage: not after deployment failures.
 
 ---
 
@@ -256,7 +256,7 @@ The official Online Boutique `kubernetes-manifests/` folder uses local image ref
 
 **Diagnosis:** Used `kubectl describe pod <pod-name>` which showed `Insufficient CPU` in the Events section.
 
-**Resolution:** Used `sed -i '/cpu:/d'` to remove CPU limit constraints from the manifest file — the correct approach for single-node development clusters.
+**Resolution:** Used `sed -i '/cpu:/d'` to remove CPU limit constraints from the manifest file: the correct approach for single-node development clusters.
 
 **Takeaway:** Kubernetes resource limits are designed for production multi-node environments. Development clusters require adjusted configurations. Always read the Events section of a `kubectl describe` output when a pod won't start.
 
