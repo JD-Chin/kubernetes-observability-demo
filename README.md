@@ -214,7 +214,7 @@ kubectl apply -f dynakube.yaml
 # Monitor operator deployment
 kubectl get pods -n dynatrace --watch
 ```
-
+> **Note:** dynakube.yaml is excluded from this repository for security reasons as it contains Dynatrace API tokens. To generate your own: log into Dynatrace, navigate to Kubernetes setup, configure your cluster settings, generate your tokens, and download the file directly from the Dynatrace UI.
 ---
 
 ## Screenshots
