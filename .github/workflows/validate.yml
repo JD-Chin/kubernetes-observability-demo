@@ -14,9 +14,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Validate kubernetes-manifests.yaml exists
+      - name: Validate kubernet-manifests.yaml exists
         run: |
           echo "Checking for kubernetes-manifests.yaml..."
           test -f kubernetes-manifests.yaml && echo "✓ kubernetes-manifests.yaml found" || exit 1
